@@ -98,13 +98,16 @@ const modalButtons = document.querySelectorAll("[data-modal]");
 const modalClose = document.querySelector("[data-close]");
 const modalWindow = document.querySelector(".modal");
 
+function openModal() {
+  modalWindow.classList.add("show");
+  modalWindow.classList.remove("hide");
+  //modalWindow.classList.toggle("show");  //instead of add and remove
+  document.body.style.overflow = "hidden";
+  clearInterval(modalTimerID);
+}
+
 modalButtons.forEach((btn) => {
-  btn.addEventListener("click", (event) => {
-    modalWindow.classList.add("show");
-    modalWindow.classList.remove("hide");
-    //modalWindow.classList.toggle("show");  //instead of add and remove
-    document.body.style.overflow = "hidden";
-  });
+  btn.addEventListener("click", openModal);
 });
 
 function closeModal() {
@@ -127,3 +130,18 @@ document.addEventListener("keydown", (event) => {
     closeModal();
   }
 });
+
+const modalTimerID = setTimeout(openModal, 5000);
+
+//open modal window at the bottom of page:
+function openModalonBottom() {
+  if (
+    window.scrollY + document.documentElement.clientHeight >=
+    document.documentElement.scrollHeight
+  ) {
+    openModal();
+    window.removeEventListener("scroll", openModalonBottom);
+  }
+}
+
+window.addEventListener("scroll", openModalonBottom);
