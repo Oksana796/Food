@@ -92,3 +92,38 @@ function setClock(selector, endtime) {
 }
 
 setClock(".timer", deadline);
+
+//Modal window
+const modalButtons = document.querySelectorAll("[data-modal]");
+const modalClose = document.querySelector("[data-close]");
+const modalWindow = document.querySelector(".modal");
+
+modalButtons.forEach((btn) => {
+  btn.addEventListener("click", (event) => {
+    modalWindow.classList.add("show");
+    modalWindow.classList.remove("hide");
+    //modalWindow.classList.toggle("show");  //instead of add and remove
+    document.body.style.overflow = "hidden";
+  });
+});
+
+function closeModal() {
+  modalWindow.classList.remove("show");
+  modalWindow.classList.add("hide");
+  //modalWindow.classList.toggle("show");
+  document.body.style.overflow = "";
+}
+
+modalClose.addEventListener("click", closeModal);
+
+modalWindow.addEventListener("click", (event) => {
+  if (event.target === modalWindow) {
+    closeModal();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.code === "Escape" && modalWindow.classList.contains("show")) {
+    closeModal();
+  }
+});
