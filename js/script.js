@@ -218,3 +218,58 @@ new CardMenu(
   ".menu .container",
   "menu__item"
 ).render();
+
+//Forms
+
+const forms = document.querySelectorAll("form");
+
+const message = {
+  loading: "Loading",
+  success: "Thanks! We will get in touch.",
+  failure: "OOps, something wrong...",
+};
+
+//the last: connect our f with all forms:
+forms.forEach((item) => {
+  postData(item);
+});
+
+function postData(form) {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    //where append message:
+    let statusMessage = document.createElement("div");
+    statusMessage.classList.add("status"); //have to be created
+    statusMessage.textContent = message.loading;
+    form.append(statusMessage);
+
+    const request = new XMLHttpRequest();
+    request.open("POST", "server.php");
+
+    //title:
+    request.setRequestHeader("Content-type", "application/json; charset=utf-8");
+    const formData = new FormData(form);
+
+    const object = {};
+    formData.forEach(function (value, key) {
+      object[key] = value;
+    });
+
+    request.send(JSON.stringify(object));
+
+    request.addEventListener("load", () => {
+      if (request.status === 200) {
+        console.log(request.response);
+        statusMessage.textContent = message.success;
+        //clear, reset input value:
+        form.reset();
+        setTimeout(() => {
+          statusMessage.remove();
+        }, 2000);
+      } else {
+        statusMessage.textContent = message.failure;
+      }
+    });
+  });
+}
