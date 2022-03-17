@@ -190,8 +190,15 @@ class CardMenu {
   }
 }
 
-getResource("http://localhost:3000/menu").then((data) => {
-  data.forEach(({ img, altimg, title, descr, price }) => {
+// getResource("http://localhost:3000/menu").then((data) => {
+//   data.forEach(({ img, altimg, title, descr, price }) => {
+//     new CardMenu(img, altimg, title, descr, price, ".menu .container").render();
+//   });
+// });
+
+axios.get("http://localhost:3000/menu").then((data) => {
+  //axios docs: 'data' - response provided by server
+  data.data.forEach(({ img, altimg, title, descr, price }) => {
     new CardMenu(img, altimg, title, descr, price, ".menu .container").render();
   });
 });
