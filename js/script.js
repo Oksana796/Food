@@ -41,14 +41,22 @@ const deadline = "2022-03-30";
 
 //endtime - is deadline in milliseconds;
 function timeRemaining(endtime) {
+  let days, hours, min, sec;
   //Date.parse() - converts to ms;
   let t = Date.parse(endtime) - Date.parse(new Date());
-  //now ms convert in day, hours, min, sec
-  let days = Math.floor(t / (1000 * 60 * 60 * 24));
-  let hours = Math.floor((t / (100 * 60 * 60)) % 24);
-  let min = Math.floor((t / (1000 * 60)) % 60);
-  let sec = Math.floor((t / 1000) % 60);
-
+  
+  if(t<=0) {
+    days=0;
+    hours=0;
+    min=0;
+    sec=0;
+  } else {
+    days = Math.floor(t / (1000 * 60 * 60 * 24));
+    hours = Math.floor((t / (100 * 60 * 60)) % 24);
+    min = Math.floor((t / (1000 * 60)) % 60);
+    sec = Math.floor((t / 1000) % 60);
+  }
+  
   return {
     total: t,
     days: days,
